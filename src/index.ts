@@ -1,6 +1,8 @@
 import path from 'path';
 import { getJSONFromFile } from './json_to_xml';
 import { getXMLFromFile } from './xml_to_json';
+import dotenv from 'dotenv';
+dotenv.config();
 
 async function main() {
     const argumentPath = process.argv[2];
