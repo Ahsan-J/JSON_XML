@@ -1,8 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 
-const attributePrefix = "$";
-
 const readXMLContentStream = (filePath: string) => new Promise<string>((resolve, reject) => {
 
     if (!path.isAbsolute(filePath)) return reject(new Error("File path is not absolute"));
@@ -20,21 +18,21 @@ const getAttributes = (attributes: string) => {
     if(!attributes) return null;
 
     const obj = {};
-    const regex = new RegExp(/(?:(\w+)=?("|')([^'"\s]*)\2)*/, 'i');
+    const regex = new RegExp(/(\w+)=?("|')([^'"]*)\2/, 'i');
     
     const s = attributes.trim().split(regex);
 
     for (let i = 0; i < s.length; i += 4) {
         const key = s[i + 1];
         const value = s[i + 3];
-        if(key) obj[`${attributePrefix}${key}`] = value;
+        if(key) obj[`${process.env.ATTRIBUTE_PREFIX || ""}${key}`] = value;
     }
 
     return obj;
 }
 
 const processXMLContent = (content: string) => {
-    const elementRegex = /<(\w+)(\s+[^>]*)?>(.*?)<\/\1>/;
+    const elementRegex = /<(\w+)(\s+[^>]*)?(?:\/>|>(.*?)<\/\1>)/;
 
     const obj = {};
     const s = content.split(new RegExp(elementRegex, 'i'))
@@ -42,28 +40,26 @@ const processXMLContent = (content: string) => {
     for (let i = 0; i < s.length; i += 4) {
         const key = s[i + 1];
         const attributes = getAttributes(s[i + 2]);
-        const value = new RegExp(elementRegex).test(s[i + 3]) ? processXMLContent(s[i + 3]) : s[i + 3];
-
-        // if(attributes) console.log(obj[key],value,key);
+        const value = (new RegExp(elementRegex).test(s[i + 3]) ? processXMLContent(s[i + 3]) : s[i + 3]) || {};
 
         if (!key) continue;
 
         if (obj[key] && Array.isArray(obj[key])) {
-            obj[key].push(value);
+            obj[key].push(Object.assign(value, attributes));
             continue;
         }
 
         if (obj[key] && typeof obj[key] === 'object') {
-            obj[key] = [Object.assign({}, obj[key]), value];
+            obj[key] = [obj[key], Object.assign(value, attributes)];
             continue;
         }
 
         if (obj[key]) {
-            obj[key] = [Object.assign(obj[key]), value];
+            obj[key] = [Object.assign(obj[key]), Object.assign(value, attributes)];
             continue;
         }
-
-        obj[key] = value;
+        
+        obj[key] = Object.assign(value, attributes);
     }
 
     return obj;
