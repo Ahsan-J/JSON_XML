@@ -1,37 +1,77 @@
 {
-    "bookstore": {
-        "book": [
-            {
-                "title": "Everyday Italian",
-                "author": "Giada De Laurentiis",
-                "year": "2005",
-                "price": "30.00",
-                "available": true
+    "XyzzyTalk": {
+        "XyzzyHeader": {
+            "$xyzzy_version": "0.1.1.0",
+            "$api_id": "POSCNX",
+            "$api_version": "0.0.9.0",
+            "$api_command": "ORDER"
+        },
+        "PCX_ORDER": {
+            "Customer": {
+                "Addr": {
+                    "$co": "",
+                    "$l1": "1221 w. brandon blvd.",
+                    "$l2": "",
+                    "$xs": "",
+                    "$c": "brandon",
+                    "$s": "FL",
+                    "$z": "33511"
+                },
+                "Ctct": {
+                    "$ph": "813-298-9809",
+                    "$eml": "jason@microsale.net"
+                },
+                "$n": "hefner, jason"
             },
-            {
-                "title": "Harry Potter",
-                "author": "J K. Rowling",
-                "year": "2005",
-                "price": "29.99"
-            },
-            {
-                "title": "XQuery Kick Start",
-                "author": [
-                    "James McGovern",
-                    "Per Bothner",
-                    "Kurt Cagle",
-                    "James Linn",
-                    "Vaidyanathan Nagarajan"
+            "Ticket": {
+                "Item": [
+                    {
+                        "Mod": [
+                            {
+                                "Mod": {
+                                    "$pn": "",
+                                    "$n": "Hot"
+                                },
+                                "$n": "Wing Temperature"
+                            },
+                            {
+                                "Mod": {
+                                    "$pn": "",
+                                    "$n": "Ranch"
+                                },
+                                "$n": "Dipping Sauce"
+                            }
+                        ],
+                        "$pn": "301",
+                        "$n": "10 Wings",
+                        "$qty": "1",
+                        "$p": "$US6.99",
+                        "$ttl": "$US6.99",
+                        "$note": ""
+                    },
+                    {
+                        "$pn": "tax",
+                        "$n": "tax",
+                        "$qty": "1",
+                        "$p": "$US0.49",
+                        "$ttl": "$US0.49"
+                    }
                 ],
-                "year": "2003",
-                "price": "49.99"
+                "Payment": {
+                    "CrCard": {
+                        "$num": "5499990123456781",
+                        "$exp": "2013-05"
+                    },
+                    "$pmid": "MasterCard",
+                    "$tip": "0.00"
+                },
+                "$ref": "406",
+                "$dlvt": "TAKEOUT",
+                "$dt": "2012-08-27T13:03",
+                "$need_dt": "2012-08-27T13:20",
+                "$asap": "1"
             },
-            {
-                "title": "Learning XML",
-                "author": "Erik T. Ray",
-                "year": "2003",
-                "price": "39.95"
-            }
-        ]
+            "$ref": "demoweb65"
+        }
     }
 }

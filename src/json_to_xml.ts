@@ -13,17 +13,48 @@ const readJSONContentStream = (filePath: string) => new Promise<string>((resolve
     })
 })
 
+const keyIsAttribute = (key: string) => {
+    return key.slice(0, process.env.ATTRIBUTE_PREFIX?.length || 1) == process.env.ATTRIBUTE_PREFIX;
+}
+
+const generateAttributes = (jsonObject: { [key in string]: string | number | boolean }) => {
+    return Object.keys(jsonObject).reduce((result, key) => {
+        if(keyIsAttribute(key)) {
+            const value = jsonObject[key];
+            result += ` ${key.slice(1, key.length)}="${value}"`;
+        }
+        return result;
+    }, "");
+}
+
+const generateChildren = (jsonObject: { [key in string]: string | number | boolean }) => {
+    return Object.keys(jsonObject).reduce((result, key) => {
+        if(!keyIsAttribute(key)) {
+            const value = jsonObject[key];
+            result[key] = value;
+        }
+        return result;
+    }, {});
+}
+
 const processJSONObject = (jsonObject: any, parentKey?: string) => {
     let result = '';
 
     if (typeof jsonObject === 'object') {
         for (const key in jsonObject) {
             const value = jsonObject[key];
-
+            
             if (Array.isArray(value)) {
                 result = result + `${processJSONObject(value, key)}`;
             } else {
-                result = result + `<${parentKey || key}>${processJSONObject(value)}</${parentKey || key}>`;
+                const attributes = generateAttributes(value);
+                const children = generateChildren(value);
+
+                if(Object.keys(children).length) {
+                    result = result + `<${parentKey || key}${attributes}>${processJSONObject(children)}</${parentKey || key}>`;
+                } else {
+                    result = result + `<${parentKey || key}${attributes}/>`;
+                }
             }
         }
     }
@@ -42,5 +73,5 @@ const processJSONObject = (jsonObject: any, parentKey?: string) => {
 export const getJSONFromFile = async (filePath: string) => {
     const stream: string = await readJSONContentStream(path.resolve(process.cwd(), filePath));
     const cleanText = stream.replace(/\n/g, '').replace(/\r/g, '').replace(/>\s*</g, '><');
-    return processJSONObject(JSON.parse(cleanText));
+    return `<?xml version="1.0"?>${processJSONObject(JSON.parse(cleanText))}`;
 }

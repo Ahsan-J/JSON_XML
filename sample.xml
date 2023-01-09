@@ -1,36 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<bookstore>
-
-  <book category="cooking">
-    <title lang="en">Everyday Italian</title>
-    <author>Giada De Laurentiis</author>
-    <year>2005</year>
-    <price>30.00</price>
-  </book>
-
-  <book category="children">
-    <title lang="en">Harry Potter</title>
-    <author>J K. Rowling</author>
-    <year>2005</year>
-    <price>29.99</price>
-  </book>
-
-  <book category="web">
-    <title lang="en">XQuery Kick Start</title>
-    <author>James McGovern</author>
-    <author>Per Bothner</author>
-    <author>Kurt Cagle</author>
-    <author>James Linn</author>
-    <author>Vaidyanathan Nagarajan</author>
-    <year>2003</year>
-    <price>49.99</price>
-  </book>
-
-  <book category="web" cover="paperback">
-    <title lang="en">Learning XML</title>
-    <author>Erik T. Ray</author>
-    <year>2003</year>
-    <price>39.95</price>
-  </book>
-
-</bookstore>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<XyzzyTalk>
+  <XyzzyHeader xyzzy_version="0.1.1.0" api_id="POSCNX" api_version="0.0.9.0" api_command="ORDER" />
+  <PCX_ORDER ref="demoweb65">
+    <Customer n="hefner, jason">
+      <Addr co="" l1="1221 w. brandon blvd." l2="" xs="" c="brandon" s="FL" z="33511" />
+      <Ctct ph="813-298-9809" eml="jason@microsale.net" />
+    </Customer>
+    <Ticket ref="406" dlvt="TAKEOUT" dt="2012-08-27T13:03" need_dt="2012-08-27T13:20" asap="1">
+      <Item pn="301" n="10 Wings" qty="1" p="$US6.99" ttl="$US6.99" note="">
+        <Mod n="Wing Temperature">
+          <Mod pn="" n="Hot" />
+        </Mod>
+        <Mod n="Dipping Sauce">
+          <Mod pn="" n="Ranch" />
+        </Mod>
+      </Item>
+      <Item pn="tax" n="tax" qty="1" p="$US0.49" ttl="$US0.49" />
+      <Payment pmid="MasterCard" tip="0.00">
+        <CrCard num="5499990123456781" exp="2013-05" />
+      </Payment>
+    </Ticket>
+  </PCX_ORDER>
+</XyzzyTalk>
